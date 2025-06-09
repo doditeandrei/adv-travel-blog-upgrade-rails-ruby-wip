@@ -1,0 +1,12 @@
+= simple_form_for @item, url: fae.update_content_block_path(slug: @item.slug), method: :put do |f|
+  header.content-header.js-content-header
+    == render 'fae/shared/form_header', header: @item
+
+  main.content
+    = fae_input f, :title
+
+    = fae_content_form f, :description, markdown: true
+    = fae_content_form f, :images, markdown: true
+    = fae_content_form f, :parteneri_media_intro
+    = fae_content_form f, :parteneri_media_content, markdown: true
+    = fae_content_form f, :merch_display_text, hint: 'lasa gol daca nu vrei sa apara linkul catre shop in nav, va apara atunci textul Despre cu link catre /about'

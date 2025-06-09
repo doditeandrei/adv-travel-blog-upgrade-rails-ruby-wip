@@ -1,0 +1,139 @@
+<% content_for :title do %>
+  <%= @article.title %> | Aer de Vacanta
+<% end %>
+<% content_for :og_title do %>
+  <%= @article.title %>
+<% end %>
+<% content_for :og_url do %>
+  https://www.aerdevacanta.ro/article/<%= @article.slug %>
+<% end %>
+<% content_for :og_description do %>
+  <%= @article.introduction %>
+<% end %>
+<% content_for :og_image do %>
+  <%= @article.intro_photo %>
+<% end %>
+
+<section class="bg-light article">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-xl-9 mt-4">
+        <div class="single-post">
+          <h1 class="mt-3 text-dark"><%= @article.title %></h1>
+          <p class="lead text-justify"><%= markdown(@article.introduction) %></p>
+          <div class="d-flex align-items-center justify-content-between mt-4 mb-4">
+            <div class="single-post-meta mr-4">
+              <img class="single-post-meta-img" src="<%= @article.author.avatar %>" alt="author-avatar">
+              <div class="single-post-meta-details">
+                <div class="single-post-meta-details-name text-info">
+                  <%= @article.author.name %>
+                </div>
+                <div class="single-post-meta-details-date">
+                  <%= @article.date.strftime("%d %b") %>
+                </div>
+              </div>
+            </div>
+            <div class="text-gray-500">
+              <small>
+                <i class="fas fa-hourglass-start"></i>
+                <% a = @article.body.reading_time format: :raw %>
+                <%= "#{a[1]} min" %>
+              </small>
+            </div>
+            <div class="d-lg-none text-center">
+              <%= link_to category_path(@article.category.slug), class: "text-center" do %>
+                <h4 class="badge badge-dark text-uppercase py-1 px-2"><%= @article.category.name %></h4>
+              <% end %>
+            </div>
+          </div>
+          <img class="img-fluid mb-2 mx-auto d-block" alt="Poza titlu articol aerdevacanta" src="<%= @article.intro_photo %>"/>
+          <div class="single-post-text text-justify my-5">
+            <%= markdown(@article.body) %>
+          </div>
+          <div class="single-post-meta-links d-lg-none text-center">
+            <h4 class="text-info">Share prietenilor</h4>
+            <a class="ml-3 h3 text-green" target="_blank" href="whatsapp://send?text=https://www.aerdevacanta.ro/article/<%= @article.slug %>">
+              <i class="fab fa-whatsapp"></i></a>
+            <a class="h3 text-primary" target="_blank" href="http://www.facebook.com/share.php?u=https://www.aerdevacanta.ro/article/<%= @article.slug %>"><i class="fab fa-facebook-f fa-fw"></i></a>
+            <a class="text-dark" href="mailto:?subject=<%= @article.title %>&body=https://www.aerdevacanta.ro/article/<%= @article.slug %>"><i class="far fa-envelope"></i></a>
+          </div>
+          <hr class="mb-4 bg-info"/>
+          <div class="fb-comments" id="comments" data-href="https://www.aerdevacanta.ro/article/<%= @article.slug %>" data-width="100%" data-numposts="4"></div>
+          <div class="">
+            <h4 class="my-2 text-dark">Vezi si...</h4>
+          </div>
+          <div class="row justify-content-center">
+            <% if @additional_articles.each do |article| %>
+              <div class="card lift ml-3 mt-3 bg-light" style="max-width: 10rem;">
+                <%= link_to article_path(article.slug) do %>
+                  <img src="<%= article.intro_photo %>" alt="Card image cap" style="width: 10rem; height: 6rem; object-fit: cover;">
+                <% end %>
+                <div class="card-body p-1 text-center">
+                  <%= link_to article_path(article.slug) do %>
+                    <p class="card-text text-info"><%= article.title %></p>
+                  <% end %>
+                </div>
+                <div class="card-footer p-1">
+                  <p class="card-text">
+                    <small class="text-muted"><%= time_ago_in_words(article.date) %>
+                      in </small>
+                  </p>
+                  <%= link_to category_path(article.category.slug) do %>
+                    <p class="card-text text-center">
+                      <small class="badge badge-dark text-uppercase text-justify"><%= article.category.name %> </small>
+                  <% end %>
+                  </p>
+                </div>
+              </div>
+            <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="pl-5 container d-none d-lg-block col-xl-3">
+        <div class="sticky-top pt-5">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="text-center">CATEGORII</h4>
+              <hr>
+              <div class="category bg-white ">
+                <% @categories.each do |category| %>
+                  <%= link_to category_path(category.slug) do %>
+                    <% if category.articles.count > 0 %>
+                      <% if category.slug == @article.category.slug %>
+                        <div class="mb-3 d-flex justify-content-between text-capitalize p-3 bg-info rounded-right">
+                          <p class="mb-0 text-white">
+                            <%= category.name %>
+                          </p>
+                          <p class="mb-0 text-white">
+                            <%= category.articles.count %>
+                          </p>
+                        </div>
+                      <% else %>
+                        <div class="d-flex justify-content-between text-capitalize text-dark hover-grow">
+                          <p class="text-dark">
+                            <%= category.name %>
+                          </p>
+                          <p class="text-dark">
+                            <%= category.articles.count %>
+                          </p>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 mb-4 text-center">
+            <h5 class="mt-3 mb-1 text-dark">Share prietenilor</h5>
+            <a class="p-1 icon-stack bg-dark text-white" target="_blank" href="http://www.facebook.com/share.php?u=https://www.aerdevacanta.ro/article/<%= @article.slug %>"><i class="fab fa-facebook-f fa-fw"></i></a>
+            <a class="p-0 ml-3 icon-stack bg-dark text-white" target="_blank" href="whatsapp://send?text=https://www.aerdevacanta.ro/article/<%= @article.slug %>"><i class="fab fa-whatsapp"></i></a>
+            <a class="p-0 ml-3 icon-stack bg-dark text-white" target="_blank" href="mailto:?subject=Articol Aer de vacanta -> <%= @article.title %>&body=https://www.aerdevacanta.ro/article/<%= @article.slug %>"><i class="far fa-envelope"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

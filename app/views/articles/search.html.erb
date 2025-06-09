@@ -1,0 +1,106 @@
+<% content_for :title do %>
+  <% if !@articles.nil? %>
+    <%= params[:q].upcase %> | Aer de Vacanta
+  <% else %>
+    Cauta in arhiva | Aer de Vacanta
+  <% end %>
+<% end %>
+<section class="bg-light py-1">
+  <div class="container">
+    <div class="row justify-content-center mt-3">
+      <%= form_tag search_path, method: :get, class: "input-group col-10 col-lg-6" do %>
+        <%= text_field_tag :q, @query, required: true, class: "form-control rounded-0", placeholder: "Cauta..." %>
+        <div class="input-group-append">
+          <%= button_tag(type: "submit", class: "transform-right form-control btn btn-dark border-0 rounded-0") do %>
+            <i class="fas fa-arrow-right"></i>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <% if !@articles.nil? %>
+    <div class="container">
+      <div class="mt-3 mb-3">
+        <% if @articles.total_count == 1 %>
+          <h2><%= @articles.total_count %>  rezultat <span class=" ml-4 text-info font-italic"><ins><%= params[:search_query] %></ins></span>
+          </h2>
+        <% else %>
+          <h2><%= @articles.total_count %>  rezultate <span class=" ml-4 text-info font-italic"><ins><%= params[:search_query] %></ins></span>
+          </h2>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <div class="container">
+    <% if @articles %>
+      <% @articles.each do |article| %>
+        <div class="card post-preview post-preview-featured lift mb-3">
+          <div class="row no-gutters">
+            <div class="col-12 col-lg-3">
+              <%= link_to article_path(article.slug) do %>
+                <div class="post-preview-featured-img" style="background-image: url(<%= article.intro_photo %>)">
+                </div>
+              <% end %>
+            </div>
+            <div class="col-12 col-lg-9">
+              <div class="card-body">
+                <%= link_to article_path(article.slug) do %>
+                  <h4 class="card-title text-center text-lg-left text-info"><%= article.title %></h4>
+                  <p class="card-text d-none d-lg-block"><%= article.introduction %></p>
+                <% end %>
+                <hr class="d-none d-lg-block">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="post-preview-meta">
+                    <%= image_tag article.author.avatar, class: "post-preview-meta-img d-none d-lg-block" %>
+                    <div class="post-preview-meta-details d-none d-lg-block">
+                      <div class="post-preview-meta-details-name text-info"><%= article.author.name %> </div>
+                      <div class="post-preview-meta-details-date"><%= article.date.strftime("%d %b") %> </div>
+                    </div>
+                  </div>
+                  <div class="text-info d-none d-lg-block">
+                    <%= link_to category_path(article.category.slug), class: "badge badge-dark text-uppercase py-1 px-2" do %>
+                      <%= article.category.name %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="d-flex justify-content-center">
+        <%= will_paginate(@articles, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer, previous_label: "«", next_label: "»") %>
+      </div>
+    <% end %>
+  </div>
+  <% if !@articles.nil? && @articles.total_count == 0 %>
+    <div class="container">
+      <h4 class="text-center mb-3"> Consultati aceste articole in schimb. </h4>
+      <div class="row justify-content-center">
+        <% if @discover_articles.each do |article| %>
+          <div class="card lift mr-3 mb-3 bg-light" style="max-width: 10rem;">
+            <%= link_to article_path(article.slug) do %>
+              <img src="<%= article.intro_photo %>" alt="Card image cap" style="width: 10rem; height: 6rem; object-fit: cover;">
+            <% end %>
+            <div class="card-body p-1 text-center">
+              <%= link_to article_path(article.slug) do %>
+                <p class="card-text text-info"><%= article.title %></p>
+              <% end %>
+            </div>
+            <div class="card-footer p-1">
+              <p class="card-text"><small class="text-muted"><%= time_ago_in_words(article.date) %>
+                in </small>
+              </p>
+              <%= link_to category_path(article.category.slug) do %>
+                <p class="card-text text-center">
+                  <small class="badge badge-dark text-uppercase text-justify"><%= article.category.name %> </small>
+              <% end %>
+              </p>
+            </div>
+          </div>
+        <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</section>

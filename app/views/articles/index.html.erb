@@ -1,0 +1,123 @@
+<header class="d-none d-lg-block page-header pt-0 bg-img-cover" style="max-height: 15rem; background-image: url('https://res.cloudinary.com/giaconi/image/upload/v1611854125/header-full-width-6_aoxhok.png')">
+  <div class="text-center pt-5">
+    <h1 class="heading text-white" style="font-size: 9rem;">Aer de Vacanta</h1>
+  </div>
+</header>
+<section class="bg-light pt-4">
+  <div class="container">
+    <% unless !@last_article %>
+      <div class="card lift post-preview post-preview-featured mb-1">
+        <div class="row no-gutters">
+          <div class="col-lg-6">
+            <%= link_to article_path(@last_article.slug) do %>
+              <div class="post-preview-featured-img" style="background-image: url(<%= @last_article.intro_photo %>)">
+              </div>
+            <% end %>
+          </div>
+          <div class="col-lg-6">
+            <div class="card-body">
+              <div class="py-4">
+                <%= link_to category_path(@last_article.category.slug), class: "text-center" do %>
+                  <h4 class="badge badge-dark text-uppercase py-1 px-2"><%= @last_article.category.name %></h4>
+                <% end %>
+                <%= link_to article_path(@last_article.slug) do %>
+                  <h5 class="card-title mt-3 text-info"><%= @last_article.title %></h5>
+                <% end %>
+                <p class="card-text mt-3"><%= @last_article.introduction %></p>
+              </div>
+              <hr/>
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="post-preview-meta">
+                  <img class="post-preview-meta-img" src="<%= @last_article.author.avatar %>" alt="author image">
+                  <div class="post-preview-meta-details">
+                    <div class="post-preview-meta-details-name text-dark"><%= @last_article.author.name %> </div>
+                    <div class="post-preview-meta-details-date"><%= @last_article.date.strftime("%d %b") %> </div>
+                  </div>
+                </div>
+                <div class="text-info">
+                  <%= link_to article_path(@last_article.slug, anchor: "comments") do %>
+                    <i class="far fa-comments text-dark"></i>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <div class="d-flex align-items-center mt-4">
+      <h4>Ultimele postari</h4>
+      <%= link_to articles_path, class: "transform-right btn btn-sm btn-dark d-inline-flex align-items-center mb-2 ml-3" do %>
+        vezi toate
+        <i class="ml-2 fas fa-arrow-right"></i>
+      <% end %>
+    </div>
+    <hr class="mb-4 bg-info"/>
+    <div class="row">
+      <% unless !@last_three_articles
+           @last_three_articles.each do |article| %>
+          <div class="col-md-6 col-xl-4 mb-5">
+            <div class="card no-gutters post-preview lift h-100" style="max-width: 25rem;">
+              <%= link_to article_path(article.slug) do %>
+                <img class="card-img-top" src="<%= article.intro_photo %>" alt="..." style="width: 25rem; height: 12rem; object-fit: cover;"/>
+              <% end %>
+              <%= link_to category_path(article.category.slug), class: "text-left mt-2 ml-2" do %>
+                <h4 class="badge badge-dark text-uppercase py-1 px-2"><%= article.category.name %></h4>
+              <% end %>
+              <div class="card-body">
+                <%= link_to article_path(article.slug) do %>
+                  <h5 class="card-title text-info"><%= article.title %></h5>
+                <% end %>
+                <p class="card-text"><%= article.introduction %></p>
+              </div>
+              <div class="card-footer d-flex align-items-center justify-content-between">
+                <div class="post-preview-meta">
+                  <img class="post-preview-meta-img" src="<%= article.author.avatar %>" alt="author image">
+                  <div class="post-preview-meta-details">
+                    <div class="post-preview-meta-details-name"><%= article.author.name %></div>
+                    <div class="post-preview-meta-details-date text-info"><%= article.date.strftime("%d %b") %>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-info">
+                  <%= link_to article_path(article.slug, anchor: "comments") do %>
+                    <i class="far fa-comments text-dark"></i>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="d-flex align-items-center justify-content-between">
+      <h4 class="mb-0">S-ar putea sa-ti placa </h4>
+    </div>
+    <hr class="mb-4 bg-info"/>
+    <div class="row justify-content-center">
+      <% if @additional_articles.each do |article| %>
+        <div class="card lift ml-3 mb-3 bg-light" style="max-width: 10rem;">
+          <%= link_to article_path(article.slug) do %>
+            <img src="<%= article.intro_photo %>" alt="Card image cap" style="width: 10rem; height: 6rem; object-fit: cover;">
+          <% end %>
+          <div class="card-body p-1 text-center">
+            <%= link_to article_path(article.slug) do %>
+              <p class="card-text text-info"><%= article.title %></p>
+            <% end %>
+          </div>
+          <div class="card-footer p-1">
+            <p class="card-text"><small class="text-muted"><%= time_ago_in_words(article.date) %>
+              in </small>
+            </p>
+            <%= link_to category_path(article.category.slug) do %>
+              <p class="card-text text-center">
+                <small class="badge badge-dark text-uppercase text-justify"><%= article.category.name %> </small>
+            <% end %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+      <% end %>
+    </div>
+  </div>
+</section>

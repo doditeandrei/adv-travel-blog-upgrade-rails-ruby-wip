@@ -1,0 +1,22 @@
+== render 'fae/shared/index_header', title: @klass_humanized.pluralize.titleize
+
+main.content
+  table.js-sort-column
+    thead
+      tr
+        th Title
+        th Category
+        th.-action-wide Modified
+        th.-action data-sorter="false"
+
+    tbody
+      - if @items.present?
+        - @items.each do |item|
+          - next unless item.author.email == current_user.email || current_user.super_admin?
+          tr id=fae_sort_id(item)
+            td = link_to item.fae_display_field, edit_admin_article_path(item)
+            td = item.category.name
+            td = fae_date_format item.updated_at
+            td = fae_delete_button(item, admin_article_path(item.id))
+      - else
+        tr: td colspan="3" No items found

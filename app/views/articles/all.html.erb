@@ -1,0 +1,47 @@
+<% content_for :title do %>
+  Rasfoieste prin articole | Aer de Vacanta
+<% end %>
+<section class="bg-light py-1">
+  <div class="container mt-3">
+    <% if @articles %>
+      <% @articles.each do |article| %>
+        <div class="card post-preview post-preview-featured lift mb-3">
+          <div class="row no-gutters">
+            <div class="col-12 col-lg-3">
+              <%= link_to article_path(article.slug) do %>
+                <div class="post-preview-featured-img" style="background-image: url(<%= article.intro_photo %>)">
+                </div>
+              <% end %>
+            </div>
+            <div class="col-12 col-lg-9">
+              <div class="card-body">
+                <%= link_to article_path(article.slug) do %>
+                  <h4 class="card-title text-center text-lg-left text-info"><%= article.title %></h4>
+                  <p class="card-text d-none d-lg-block"><%= article.introduction %></p>
+                <% end %>
+                <hr class="d-none d-lg-block">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="post-preview-meta">
+                    <img class="post-preview-meta-img d-none d-lg-block" src="<%= article.author.avatar %>" alt="author image">
+                    <div class="post-preview-meta-details d-none d-lg-block">
+                      <div class="post-preview-meta-details-name text-info"><%= article.author.name %> </div>
+                      <div class="post-preview-meta-details-date"><%= article.date.strftime("%d %b") %> </div>
+                    </div>
+                  </div>
+                  <div class="text-info d-none d-lg-block">
+                    <%= link_to category_path(article.category.slug), class: "badge badge-dark badge-pill text-uppercase py-1 px-2" do %>
+                      <%= article.category.name %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="d-flex justify-content-center">
+        <%= will_paginate(@articles, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer, previous_label: "«", next_label: "»") %>
+      </div>
+    <% end %>
+  </div>
+</section>

@@ -1,0 +1,53 @@
+<div id="layoutDefault_footer">
+  <footer class="footer pt-4 pb-3 bg-info text-white">
+    <div class="container">
+      <div class="row text-center justify-content-center">
+        <div class="col-12 col-lg-3">
+          <%= image_tag "adv-logo-negru.png", class: "logo-footer", id: "reload" %>
+          <div class="mb-3 mt-3">Aer de Vacanta este un site web de calatorii, experiente si ponturi care te ajuta sa
+            vezi lumea cu
+            alti ochi si sa calatoresti mai mult.
+          </div>
+        </div>
+        <div class="d-none col-6 col-lg-4 mt-3">
+          <div class="text-uppercase-expanded text-xs mb-4 text-dark">Parteneri</div>
+          <ul class="list-unstyled mb-0">
+
+          </ul>
+        </div>
+        <div class="col-6 col-lg-4 mt-3">
+          <div class="text-uppercase-expanded text-xs mb-4 text-dark">Legal</div>
+          <ul class="list-unstyled mb-0">
+            <li class="mb-2"><%= link_to "Politica utilizare cookies", cookies_path %></li>
+            <li class="mb-2"><%= link_to "Termeni & Conditii", termeni_si_conditii_path %></li>
+            <li class="mb-2"><%= link_to "Sitemap", sitemap_path %></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-4 mt-3">
+          <div class="text-uppercase-expanded text-xs mb-4 text-dark">Contact</div>
+          <ul class="list-unstyled mb-3">
+            <li class="mb-2"><%= link_to "Despre noi", despre_path %></li>
+            <li class="mb-2 d-none"><%= link_to "Sprijina Aer de Vacanta", termeni_si_conditii_path %></li>
+            <li class="mb-2"><%= link_to "Scrie-ne", contact_path %></li>
+            <li class="mb-2"><%= link_to "RSS", articles_path(format: :rss) %></li>
+          </ul>
+          <div class="icons-footer mb-3">
+            <a class="transform-rotate mr-3" href="https://www.instagram.com/aerdevacanta" rel="noreferrer" target="_blank">
+              <%= image_tag "inst_round.png", style: "width: 35px;" %>
+            </a>
+            <a class="transform-rotate" href="https://www.youtube.com/aerdevacanta?sub_confirmation=1" rel="noreferrer" target="_blank">
+              <%= image_tag "yt_round.png", style: "width: 35px;" %>
+            </a>
+            <a class=" transform-rotate ml-3" href="https://www.facebook.com/aerdevacantaa" rel="noreferrer" target="_blank">
+              <%= image_tag "fb_round.png", style: "width: 35px;" %>
+            </a>
+          </div>
+        </div>
+      </div>
+      <hr class="my-4"/>
+      <div class="row align-items-center">
+        <div class="col-6 small">Copyright &copy; <%= link_to 'Aer de Vacanta', "https://www.aerdevacanta.ro", target: '_blank' %> <%= Time.current.year %></div>
+      </div>
+    </div>
+  </footer>
+</div>

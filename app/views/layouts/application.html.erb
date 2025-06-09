@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= content_for?(:title) ? yield(:title) : "Aer de Vacanta | Hai cu noi!" %></title>
+  <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Blog de experiente si calatorii." %>">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta property="og:url" content="<%= content_for?(:og_url) ? yield(:og_url) : "https://www.aerdevacanta.ro" %>"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:title" content="<%= content_for?(:og_title) ? yield(:og_title) : "Aer de Vacanta | Hai cu noi!" %>"/>
+  <meta property="og:description" content="<%= content_for?(:og_description) ? yield(:og_description) : "Blog de calatorii si experiente nemaivazute!" %>"/>
+  <meta property="og:image" content="<%= content_for?(:og_image) ? yield(:og_image) : "https://res.cloudinary.com/giaconi/image/upload/v1605786336/home-img_mv2hnd.png" %>"/>
+
+  <meta property="fb:app_id" content=<%= ENV["APP_ID"] %>/>
+  <meta property="fb:admins" content=<%= ENV["FACEBOOK_USER_ID"] %>/>
+  <meta property="fb:admins" content=<%= ENV["FACEBOOK_USER_ID_2"] %>/>
+  <meta property="fb:pages" content=<%= ENV["APP_ID_ADS"] %>/>
+
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+  <%= auto_discovery_link_tag :rss, articles_url(:format => :rss) %>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@500&display=swap" rel="stylesheet">
+
+  <!-- Start cookieyes banner -->
+  <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/8def745a433026b8343dc028/script.js"></script>
+  <!-- End cookieyes banner -->
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-K2E8NM03N7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-K2E8NM03N7');
+  </script>
+
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= favicon_link_tag asset_path('adv-favicon-new.png') %>
+
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1636463971656651" crossorigin="anonymous"></script>
+  <script async crossorigin="anonymous" src="https://connect.facebook.net/ro_RO/sdk.js#xfbml=1&version=v9.0&appId=<%= ENV["APP_ID"] %>&autoLogAppEvents=1" nonce="9UosQcRm"></script>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+</head>
+<body class="bg-light">
+<header>
+  <%= render 'shared/navigation' %>
+</header>
+<%= render 'shared/flashes' %>
+<%= yield %>
+<div class="footer pt-3 bg-light">
+  <%= render 'shared/footer' %>
+</div>
+<div id="fb-root"></div>
+</body>
+</html>

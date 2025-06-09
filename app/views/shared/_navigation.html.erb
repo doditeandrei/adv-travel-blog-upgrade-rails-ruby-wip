@@ -1,0 +1,78 @@
+<nav class="navbar navbar-hover navbar-marketing navbar-expand-lg bg-white navbar-light" id="top-page">
+  <div class="container">
+    <%= link_to root_path do %>
+      <%= image_tag "logo-new.png", class: "logo", id: "reload" %>
+    <% end %>
+    <button class="navbar-toggler collapsed position-relative" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto mr-lg-5">
+
+        <% main_categories.each do |main_category| %>
+          <% if main_category.limit == 0 %>
+            <li class="nav-item h5">
+              <%= link_to main_category.name, main_category_path(main_category.slug), class: "nav-link", role: "button" %>
+            </li>
+          <% else %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle h5" id="navbarDropdownPages" href="/main/<%= main_category.slug %>" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <%= main_category.name %>
+                <i class="fas fa-chevron-right dropdown-arrow"></i>
+              </a>
+              <ul class="dropdown-menu">
+                <% categories = Category.joins(:main_category).where!(main_categories: { slug: main_category.slug }) %>
+                <% categories.each_with_index do |category, i| %>
+                  <% break if i == main_category.limit %>
+                  <li><a class="dropdown-item h6" href="/category/<%= category.slug %>"> <%= category.name %></a></li>
+                <% end %>
+              </ul>
+            </li>
+          <% end %>
+        <% end %>
+        <div class="row flex-row justify-content-center my-auto">
+        <% if !merch_display&.merch_display_text&.content&.present? %>
+          <li>
+            <%= link_to "Despre", despre_path, class: "nav-link h5", role: "button" %>
+          </li>
+        <% else %>
+          <a class="transform-grow nav-item social-link" href="https://shop.aerdevacanta.ro" rel="noreferrer" target="_blank">
+            <u class="text-danger"><h5 class="text-danger"><%= merch_display.merch_display_text.content %></h5></u>
+          </a>
+        <% end %>
+        </div>
+      </ul>
+      <div class="row flex-row justify-content-center my-auto">
+        <a class="transform-grow nav-item social-link" href="https://www.facebook.com/aerdevacantaa" rel="noreferrer" target="_blank">
+          <i class="fab fa-facebook lead text-dark"></i>
+        </a>
+        <a class="transform-grow nav-item social-link" href="https://www.instagram.com/aerdevacanta" rel="noreferrer" target="_blank">
+          <i class="fab fa-instagram lead text-dark"></i>
+        </a>
+        <a class=" transform-grow nav-item social-link" href="https://www.youtube.com/aerdevacanta?sub_confirmation=1" rel="noreferrer" target="_blank">
+          <i class="fab fa-youtube lead text-dark"></i>
+        </a>
+        <a class=" transform-grow nav-item social-link" href="https://www.tiktok.com/@aerdevacanta" rel="noreferrer" target="_blank">
+          <i class="fab fa-tiktok lead text-dark"></i>
+        </a>
+      </div>
+      <div class="navbar-nav flex-row justify-content-center">
+        <div class="ml-3">
+          <p class="social-link my-auto toggle" id="search-icon">
+            <i class="fas fa-search lead"></i>
+          </p>
+        </div>
+        <div class="p-3" id="search-box">
+          <%= form_tag search_path, method: :get, class: "input-group-append" do %>
+            <%= text_field_tag :q, @query, required: true, class: "form-control rounded-0 border-right-0", placeholder: "Cauta..." %>
+            <div class="input-group-append rounded-0">
+              <%= button_tag(type: "submit", class: "transform-right form-control btn btn-dark border-0 rounded-0") do %>
+                <i class="fas fa-arrow-right"></i>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

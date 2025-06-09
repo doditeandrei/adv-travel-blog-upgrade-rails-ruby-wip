@@ -1,0 +1,28 @@
+<section class="bg-light py-10">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center mb-3">
+        <h2>Formular de contact</h2>
+      </div>
+    </div>
+    <%= simple_form_for @contact, url: contact_path, class: 'form-row', id: "contactForm" do |f| %>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <%= f.input :name, required: true, placeholder: "Numele tau", class: "form-control py-4" %>
+        </div>
+        <div class="form-group col-md-6">
+          <%= f.input :email, required: true, placeholder: "Adresa ta de email", class: "form-control py-4" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= f.input :message, as: :text, input_html: { 'rows' => 8, 'cols' => 40 }, required: true, placeholder: "Scrie....", class: "form-control py-3" %>
+      </div>
+      <div class="text-center">
+        <%= f.button :submit, 'Trimite mesaj', class: "btn btn-dark mt-4" %>
+      </div>
+      <div class="d-none">
+        <%= f.input :nickname, hint: "leave it blank you bot" %>
+      </div>
+    <% end %>
+  </div>
+</section>

@@ -1,0 +1,43 @@
+services:
+  web:
+    build: .
+    # override the default command to:
+    # 1. remove old PID
+    # 2. create & migrate the DB
+    # 3. seed Fae’s user + your own seeds
+    # 4. start webpack-dev-server in the background
+    # 5. boot Rails
+    command: >
+      bash -lc "
+        rm -f tmp/pids/server.pid &&
+        bundle exec rake db:create db:migrate &&
+        bundle exec rake fae:seed_db &&
+        bundle exec rake db:seed &&
+        bin/webpack-dev-server & 
+        bundle exec rails server -b 0.0.0.0
+      "
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      RAILS_ENV: development
+      NODE_ENV: development
+      DATABASE_HOST: db
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: password
+      DATABASE_NAME: adv_travel_blog_development
+
+  db:
+    image: postgres:13
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: adv_travel_blog_development
+
+volumes:
+  db-data:

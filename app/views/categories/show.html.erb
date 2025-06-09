@@ -1,0 +1,93 @@
+<% content_for :title do %>
+  <%= params[:slug].capitalize %> | Aer de Vacanta
+<% end %>
+<section class="bg-light pb-2">
+  <div class="container pt-4">
+    <div class="row">
+      <div class="col-12 col-md-7 col-xl-9">
+        <% if @category_articles.empty? %>
+          <p>no articles in this category</p>
+        <% end %>
+        <div class="container">
+          <% if @category_articles %>
+            <% @category_articles.each do |article| %>
+              <div class="card post-preview post-preview-featured lift mt-3">
+                <div class="row no-gutters">
+                  <div class="col-12 col-lg-4">
+                    <%= link_to article_path(article.slug) do %>
+                      <div class="post-preview-featured-img" style="background-image: url(<%= article.intro_photo %>)">
+                      </div>
+                    <% end %>
+                  </div>
+                  <div class="col-12 col-lg-8">
+                    <div class="card-body">
+                      <%= link_to article_path(article.slug) do %>
+                        <h5 class="card-title text-center text-lg-left text-info"><%= article.title %></h5>
+                        <p class="card-text d-none d-lg-block"><%= article.introduction %></p>
+                      <% end %>
+                      <hr class="d-none d-lg-block">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div class="post-preview-meta">
+                          <img class="post-preview-meta-img d-none d-lg-block" src="<%= article.author.avatar %>" alt="author image">
+                          <div class="post-preview-meta-details d-none d-lg-block">
+                            <div class="post-preview-meta-details-name text-info"><%= article.author.name %> </div>
+                            <div class="post-preview-meta-details-date"><%= article.date.strftime("%d %b") %> </div>
+                          </div>
+                        </div>
+                        <div class="text-info d-none d-lg-block">
+                          <%= link_to article_path(article.slug, anchor: "comments") do %>
+                            <i class="far fa-comments text-dark"></i>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            <div class="d-flex justify-content-center mt-3">
+              <%= will_paginate(@category_articles, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer, previous_label: "«", next_label: "»") %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="container col-md-4 col-xl-3">
+        <div class="sticky-top pt-3">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="text-center">CATEGORII</h3>
+              <hr>
+              <div class="category bg-white ">
+                <% @categories.each do |category| %>
+                  <%= link_to category_path(category.slug) do %>
+                    <% if category.articles.count > 0 %>
+                      <% if category.slug == @category_slug %>
+                        <div class="mb-3 d-flex justify-content-between text-capitalize p-3 bg-info rounded-right">
+                          <p class="mb-0 text-white">
+                            <%= category.name %>
+                          </p>
+                          <p class="mb-0 text-white">
+                            <%= category.articles.count %>
+                          </p>
+                        </div>
+                      <% else %>
+                        <div class="d-flex justify-content-between text-capitalize text-dark hover-grow">
+                          <p class="text-dark">
+                            <%= category.name %>
+                          </p>
+                          <p class="text-dark">
+                            <%= category.articles.count %>
+                          </p>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,69 @@
+<% content_for :title do %>
+  Rasfoieste prin categorii | Aer de Vacanta
+<% end %>
+<header class="page-header page-header-dark bg-img-cover overlay" style="background-image: url('https://res.cloudinary.com/giaconi/image/upload/v1605786336/home-img_mv2hnd.png')">
+  <div class="page-header-content">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-8 col-lg-10 text-center">
+          <h1 class="page-header-title">Vezi toate destinatiile sau ponturi care le avem pentru voi etc</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<section class="bg-light py-10">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="mb-5 text-center">
+          <div class="text-xs text-uppercase-expanded text-primary mb-2">Rasfoieste prin categorii</div>
+          <p class="lead mb-0">Daca nu esti sigur ce articol vrei sa citesti, atunci cauta pe categorii</p>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <% if @categories %>
+        <% @categories.each do |category| %>
+          <div class="col-md-6 col-lg-4 col-xl-3 mb-5">
+            <%= link_to category_path(category.slug), class: "card lift", style: "width: 13rem;" do %>
+              <img class="card-img-top" src="<%= category.main_image %>" alt="..." style="width: 13rem; height: 8rem; object-fit: cover;"/>
+              <div class="card-body text-center py-3">
+                <h6 class="card-title mb-0 text-uppercase"><%= category.name %></h6>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <hr class="mb-4 bg-info"/>
+  </div>
+  <div class="container-fluid">
+    <h4 class="text-center text-dark mb-3">
+      ULTIMELE ARTICOLE POSTATE
+    </h4>
+    <div class="row justify-content-center">
+      <% if @articles.each do |article| %>
+        <div class="card lift mr-3 mb-3 bg-light" style="max-width: 11rem;">
+          <%= link_to article_path(article.slug) do %>
+            <img src="<%= article.intro_photo %>" alt="Card image cap" style="width: 11rem; height: 8rem; object-fit: cover;">
+          <% end %>
+          <div class="card-body">
+            <%= link_to article_path(article.slug) do %>
+              <p class="card-text text-dark"><%= article.title %></p>
+            <% end %>
+          </div>
+          <div class="card-footer">
+            <p class="card-text"><small class="text-muted"><%= time_ago_in_words(article.date) %>
+              in </small>
+              <%= link_to category_path(article.category.name) do %>
+                <small class="badge badge-info badge-pill text-uppercase text-justify"><%= article.category.name %> </small>
+              <% end %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+      <% end %>
+    </div>
+  </div>
+</section>

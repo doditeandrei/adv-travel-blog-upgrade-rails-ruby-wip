@@ -1,0 +1,16 @@
+= simple_form_for([:admin, @item]) do |f|
+  .bg-dark
+    header.content-header.js-content-header
+      == render 'fae/shared/form_header', header: @klass_name
+    == render 'fae/shared/errors'
+
+    main.content
+      = fae_input f, :date
+      = fae_input f, :title, input_class: 'slugger'
+      = fae_input f, :slug
+      - if current_user.super_admin?
+        = fae_association f, :author
+      = fae_association f, :category
+      = fae_input f, :intro_photo
+      = fae_input f, :introduction, markdown: true
+      = fae_input f, :body, markdown: true
